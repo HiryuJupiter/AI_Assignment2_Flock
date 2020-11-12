@@ -1,11 +1,14 @@
-﻿public class WaypointState : FishStateBase
+﻿namespace FlockPrototype
 {
-    //Constructor
-    public WaypointState(FishBase fish) : base(fish)
+    public class WaypointState : FishStateBase
     {
-        behaviors.Add(new FlockAlignmentBehavior());
-        behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
-        behaviors.Add(new SameFlockAvoidanceBehavior(fish.Flock));
-        behaviors.Add(new WaypointFollowBehavior(WaypointManager.instance.GetTestPath));
+        //Constructor
+        public WaypointState(FishBase fish) : base(fish)
+        {
+            behaviors.Add(new FlockAlignmentBehavior());
+            behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
+            behaviors.Add(new SameFlockAvoidanceBehavior(fish.Flock));
+            behaviors.Add(new WaypointFollowBehavior(WaypointManager.instance.GetTestPath));
+        }
     }
 }

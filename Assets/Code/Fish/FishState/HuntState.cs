@@ -1,10 +1,13 @@
-﻿public class OrganizedHuntState : FishStateBase
+﻿namespace FlockPrototype
 {
-    //Constructor
-    public OrganizedHuntState(FishBase fish) : base(fish)
+    public class OrganizedHuntState : FishStateBase
     {
-        behaviors.Add(new FlockAlignmentBehavior());
-        behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
-        behaviors.Add(new PursuitBehavior());
+        //Constructor
+        public OrganizedHuntState(FishBase fish) : base(fish)
+        {
+            behaviors.Add(new FlockAlignmentBehavior());
+            behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
+            behaviors.Add(new PursuitBehavior());
+        }
     }
 }

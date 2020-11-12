@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaypointManager : MonoBehaviour
+namespace FlockPrototype
 {
-    //Lazy singleton
-    public static WaypointManager instance;
-
-    [SerializeField]
-    Path testPath;
-
-    //Simply holds all the path options and let object access them
-    public Path GetTestPath => testPath;
-
-    void Awake()
+    public class WaypointManager : MonoBehaviour
     {
-        instance = this;
+        //Lazy singleton
+        public static WaypointManager instance;
+
+        [SerializeField]
+        Path testPath;
+
+        //Simply holds all the path options and let object access them
+        public Path GetTestPath => testPath;
+
+        void Awake()
+        {
+            instance = this;
+        }
     }
 }

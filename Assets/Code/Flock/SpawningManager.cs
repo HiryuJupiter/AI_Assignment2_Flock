@@ -1,124 +1,125 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UIElements;
 
-public class SpawningManager : MonoBehaviour
+namespace FlockPrototype
 {
-    //Const
-    const float ClickAndHoldSpawnInterval = 0.1f;
-
-    //Variables
-    [SerializeField] Flock Flock_TinyFish;
-    [SerializeField] Flock Flock_SmallFish;
-    [SerializeField] Flock Flock_MediumFish;
-    [SerializeField] Flock Flock_BigFish;
-
-    //Status
-    SpawningMode mode;
-
-    //Reference
-    Camera camera;
-    UIManager ui;
-
-    //Cache
-    float spawnTimer;
-
-    #region Monobehavior
-    void Start()
+    public class SpawningManager : MonoBehaviour
     {
+        //Const
+        const float ClickAndHoldSpawnInterval = 0.1f;
+
+        //Variables
+        [SerializeField] Flock Flock_TinyFish;
+        [SerializeField] Flock Flock_SmallFish;
+        [SerializeField] Flock Flock_MediumFish;
+        [SerializeField] Flock Flock_BigFish;
+
+        //Status
+        SpawningMode mode;
+
         //Reference
-        camera = Camera.main;
-        ui = UIManager.instance;
-    }
+        Camera camera;
+        UIManager ui;
 
-    void Update()
-    {
-        TickSpawnTimer();
-        SpawningInputUpdate();
-    }
-    #endregion
+        //Cache
+        float spawnTimer;
 
-    #region Public
-    //Public methods for switching between different spawning modes
-    public void SetSpawnMode_TinyFish() => SetSpawnMode(SpawningMode.TinyFish);
-    public void SetSpawnMode_SmallFish ()=> SetSpawnMode(SpawningMode.SmallFish);
-    public void SetSpawnMode_MediumFish ()=> SetSpawnMode(SpawningMode.MediumFish);
-    public void SetSpawnMode_BigFish ()=> SetSpawnMode(SpawningMode.BigFish);
-    #endregion
-
-    #region Private
-    
-    void SpawningInputUpdate ()
-    {
-        //When player pressed the spawn button and when the spawn cooldown timer is ready...
-        if (PlayerClicksSpawn() && IsSpawnTimerReady())
+        #region Monobehavior
+        void Start()
         {
-            //Spawn a fish
-            SpawnFish();
+            //Reference
+            camera = Camera.main;
+            ui = UIManager.instance;
         }
-        //Checks if the player pressed the key to exit spawning mode.
-        else if (PlayerExitsSpawningMode())
+
+        void Update()
         {
-            //Switch off spawning mode
-            mode = SpawningMode.None;
-            ui.ExitSpawningMode();
-            SetSpawnTimerToReady();
+            TickSpawnTimer();
+            SpawningInputUpdate();
         }
-    }
+        #endregion
 
-    //For changing spawning mode
-    void SetSpawnMode(SpawningMode mode)
-    {
-        this.mode = mode;
-        ui.EnterSpawningMode(mode);
-    }
+        #region Public
+        //Public methods for switching between different spawning modes
+        public void SetSpawnMode_TinyFish() => SetSpawnMode(SpawningMode.TinyFish);
+        public void SetSpawnMode_SmallFish() => SetSpawnMode(SpawningMode.SmallFish);
+        public void SetSpawnMode_MediumFish() => SetSpawnMode(SpawningMode.MediumFish);
+        public void SetSpawnMode_BigFish() => SetSpawnMode(SpawningMode.BigFish);
+        #endregion
 
-    Vector3 MouseWorldPosition()
-    {
-        //Convert mouse's screen position to world position
-        Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
-        pos.z = 1f;
-        return pos;
-    }
+        #region Private
 
-    
-    void SpawnFish ()
-    {
-        //Spawn a fish inside the game based off the current mode we're in
-        switch (mode)
+        void SpawningInputUpdate()
         {
-            case SpawningMode.TinyFish:
-                Flock_TinyFish.Spawn(MouseWorldPosition());
-                break;
-            case SpawningMode.SmallFish:
-                Flock_SmallFish.Spawn(MouseWorldPosition());
-                break;
-            case SpawningMode.MediumFish:
-                Flock_MediumFish.Spawn(MouseWorldPosition());
-                break;
-            case SpawningMode.BigFish:
-                Flock_BigFish.Spawn(MouseWorldPosition());
-                break;
+            //When player pressed the spawn button and when the spawn cooldown timer is ready...
+            if (PlayerClicksSpawn() && IsSpawnTimerReady())
+            {
+                //Spawn a fish
+                SpawnFish();
+            }
+            //Checks if the player pressed the key to exit spawning mode.
+            else if (PlayerExitsSpawningMode())
+            {
+                //Switch off spawning mode
+                mode = SpawningMode.None;
+                ui.ExitSpawningMode();
+                SetSpawnTimerToReady();
+            }
         }
-        ResetSpawnTimer();
-    }
 
-    void TickSpawnTimer()
-    {
-        //Tick down timer
-        if (spawnTimer > 0f)
+        //For changing spawning mode
+        void SetSpawnMode(SpawningMode mode)
         {
-            spawnTimer -= Time.deltaTime;
+            this.mode = mode;
+            ui.EnterSpawningMode(mode);
         }
+
+        Vector3 MouseWorldPosition()
+        {
+            //Convert mouse's screen position to world position
+            Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = 1f;
+            return pos;
+        }
+
+
+        void SpawnFish()
+        {
+            //Spawn a fish inside the game based off the current mode we're in
+            switch (mode)
+            {
+                case SpawningMode.TinyFish:
+                    Flock_TinyFish.Spawn(MouseWorldPosition());
+                    break;
+                case SpawningMode.SmallFish:
+                    Flock_SmallFish.Spawn(MouseWorldPosition());
+                    break;
+                case SpawningMode.MediumFish:
+                    Flock_MediumFish.Spawn(MouseWorldPosition());
+                    break;
+                case SpawningMode.BigFish:
+                    Flock_BigFish.Spawn(MouseWorldPosition());
+                    break;
+            }
+            ResetSpawnTimer();
+        }
+
+        void TickSpawnTimer()
+        {
+            //Tick down timer
+            if (spawnTimer > 0f)
+            {
+                spawnTimer -= Time.deltaTime;
+            }
+        }
+
+        //Expression bodies for creating self documenting code
+        void ResetSpawnTimer() => spawnTimer = ClickAndHoldSpawnInterval;
+        void SetSpawnTimerToReady() => spawnTimer = 0f;
+
+        bool PlayerExitsSpawningMode() => Input.GetKeyDown(KeyCode.Escape);
+
+        bool PlayerClicksSpawn() => Input.GetMouseButton(0);
+        bool IsSpawnTimerReady() => spawnTimer <= 0f;
+        #endregion
     }
-
-    //Expression bodies for creating self documenting code
-    void ResetSpawnTimer () => spawnTimer = ClickAndHoldSpawnInterval;
-    void SetSpawnTimerToReady () => spawnTimer = 0f;
-
-    bool PlayerExitsSpawningMode () => Input.GetKeyDown(KeyCode.Escape);
-
-    bool PlayerClicksSpawn () => Input.GetMouseButton(0);
-    bool IsSpawnTimerReady () => spawnTimer <= 0f;
-    #endregion
 }

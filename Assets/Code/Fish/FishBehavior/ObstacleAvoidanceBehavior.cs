@@ -1,39 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ObstacleAvoidanceBehavior : IFishBehavior
+namespace FlockPrototype
 {
-    float weight;
-    float squaredCheckDist;
-
-    //Constructor
-    public ObstacleAvoidanceBehavior(Flock flock, float weight = 2f)
+    public class ObstacleAvoidanceBehavior : IFishBehavior
     {
-        this.weight = weight;
-        squaredCheckDist = flock.SmallRadius * flock.SmallRadius;
-    }
+        float weight;
+        float squaredCheckDist;
 
-    public Vector2 CalculateMoveDir(FishBase fish, FishNeighbors neighbors, Flock flock)
-    {
-        Vector2 avoidanceDir = Vector2.zero;
-
-        //Find the direction that allows us to avoid nearby obstacles
-        if (neighbors.Obstacles.Count > 0)
+        //Constructor
+        public ObstacleAvoidanceBehavior(Flock flock, float weight = 2f)
         {
-            foreach (Transform n in neighbors.Obstacles)
-            {
-                //Only consider the obstacles that are very close to us
-                if (Vector2.SqrMagnitude(fish.transform.position - n.position) < squaredCheckDist)
-                {
-                    avoidanceDir += (Vector2)(fish.transform.position - n.position);
-                }
-            }
-
-            //Average out the move direction
-            avoidanceDir /= neighbors.Obstacles.Count;
+            this.weight = weight;
+            squaredCheckDist = flock.SmallRadius * flock.SmallRadius;
         }
 
-        return avoidanceDir * weight;
+        public Vector2 CalculateMoveDir(FishBase fish, FishNeighbors neighbors, Flock flock)
+        {
+            Vector2 avoidanceDir = Vector2.zero;
+
+            //Find the direction that allows us to avoid nearby obstacles
+            if (neighbors.Obstacles.Count > 0)
+            {
+                foreach (Transform n in neighbors.Obstacles)
+                {
+                    //Only consider the obstacles that are very close to us
+                    if (Vector2.SqrMagnitude(fish.transform.position - n.position) < squaredCheckDist)
+                    {
+                        avoidanceDir += (Vector2)(fish.transform.position - n.position);
+                    }
+                }
+
+                //Average out the move direction
+                avoidanceDir /= neighbors.Obstacles.Count;
+            }
+
+            return avoidanceDir * weight;
+        }
     }
 }

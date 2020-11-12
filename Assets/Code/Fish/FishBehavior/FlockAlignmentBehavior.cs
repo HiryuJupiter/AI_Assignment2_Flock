@@ -3,31 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlockAlignmentBehavior : IFishBehavior
+namespace FlockPrototype
 {
-    float weight = 0.1f;
-
-    //Constructor
-    public FlockAlignmentBehavior(float weight = 0.1f)
+    public class FlockAlignmentBehavior : IFishBehavior
     {
-        this.weight = weight;
-    }
+        float weight = 0.1f;
 
-    public Vector2 CalculateMoveDir(FishBase agent, FishNeighbors neighbors, Flock flock)
-    {
-        Vector2 alignmentDir = Vector2.zero;
-
-        //If we have one neighbor to begin with, then ...
-        if (neighbors.SameFlock.Count > 0)
+        //Constructor
+        public FlockAlignmentBehavior(float weight = 0.1f)
         {
-            //Get the averaged forward direction of neighbors
-            foreach (Transform n in neighbors.SameFlock)
-            {
-                alignmentDir += (Vector2)n.transform.up;
-            }
-            alignmentDir = alignmentDir * weight / neighbors.SameFlock.Count;
+            this.weight = weight;
         }
 
-        return alignmentDir;
+        public Vector2 CalculateMoveDir(FishBase agent, FishNeighbors neighbors, Flock flock)
+        {
+            Vector2 alignmentDir = Vector2.zero;
+
+            //If we have one neighbor to begin with, then ...
+            if (neighbors.SameFlock.Count > 0)
+            {
+                //Get the averaged forward direction of neighbors
+                foreach (Transform n in neighbors.SameFlock)
+                {
+                    alignmentDir += (Vector2)n.transform.up;
+                }
+                alignmentDir = alignmentDir * weight / neighbors.SameFlock.Count;
+            }
+
+            return alignmentDir;
+        }
     }
 }

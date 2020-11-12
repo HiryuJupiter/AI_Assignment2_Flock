@@ -1,29 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
-public abstract class FishStateBase 
+namespace FlockPrototype
 {
-    //Variables
-    protected List<IFishBehavior> behaviors = new List<IFishBehavior>();
-    protected FishBase fish;
-    protected Transform transform;
-
-    //Constructor
-    public FishStateBase(FishBase fish)
+    public abstract class FishStateBase
     {
-        this.fish = fish;
-        transform = fish.transform;
-    }
+        //Variables
+        protected List<IFishBehavior> behaviors = new List<IFishBehavior>();
+        protected FishBase fish;
+        protected Transform transform;
 
-    //Override fixed update
-    public virtual void StateFixedUpdate()
-    {
-        //Start with a basic forward movement and then add on behavior movements
-        Vector2 moveDir = transform.up;
-        foreach (var behavior in behaviors)
+        //Constructor
+        public FishStateBase(FishBase fish)
         {
-            moveDir += behavior.CalculateMoveDir(fish, fish.neighbors, fish.Flock);
+            this.fish = fish;
+            transform = fish.transform;
         }
-        fish.Move(moveDir);
+
+        //Override fixed update
+        public virtual void StateFixedUpdate()
+        {
+            //Start with a basic forward movement and then add on behavior movements
+            Vector2 moveDir = transform.up;
+            foreach (var behavior in behaviors)
+            {
+                moveDir += behavior.CalculateMoveDir(fish, fish.neighbors, fish.Flock);
+            }
+            fish.Move(moveDir);
+        }
     }
 }

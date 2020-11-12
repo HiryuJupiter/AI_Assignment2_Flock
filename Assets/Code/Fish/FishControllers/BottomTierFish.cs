@@ -1,26 +1,29 @@
-﻿//Class for the lowest tier fish
-public class BottomTierFish : FishBase
+﻿namespace FlockPrototype
 {
-    //Override the base class Initialze method so we ...
-    //...can specify which particular state classes to assign
-    public override void Initialize(Flock flock)
+    //Class for the lowest tier fish
+    public class BottomTierFish : FishBase
     {
-        base.Initialize(flock);
-        escapeState = new EscapeState(this);
-        passiveState = new WaypointState(this);
-    }
-
-    //Override fixed update to skip the step of looking for prey
-    protected override void FixedUpdate()
-    {
-        neighbors.DetectNeighbors();
-        if (neighbors.HasPredator())
+        //Override the base class Initialze method so we ...
+        //...can specify which particular state classes to assign
+        public override void Initialize(Flock flock)
         {
-            escapeState.StateFixedUpdate();
+            base.Initialize(flock);
+            escapeState = new EscapeState(this);
+            passiveState = new WaypointState(this);
         }
-        else
+
+        //Override fixed update to skip the step of looking for prey
+        protected override void FixedUpdate()
         {
-            passiveState.StateFixedUpdate();
+            neighbors.DetectNeighbors();
+            if (neighbors.HasPredator())
+            {
+                escapeState.StateFixedUpdate();
+            }
+            else
+            {
+                passiveState.StateFixedUpdate();
+            }
         }
     }
 }

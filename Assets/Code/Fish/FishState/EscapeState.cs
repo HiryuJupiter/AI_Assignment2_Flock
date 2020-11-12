@@ -1,9 +1,12 @@
-﻿public class EscapeState : FishStateBase
+﻿namespace FlockPrototype
 {
-    //Constructor
-    public EscapeState(FishBase fish) : base(fish)
+    public class EscapeState : FishStateBase
     {
-        behaviors.Add(new EscapeBehavior(fish.Flock));
-        behaviors.Add(new StayInRadiusBehavior());
+        //Constructor
+        public EscapeState(FishBase fish) : base(fish)
+        {
+            behaviors.Add(new EscapeBehavior(fish.Flock));
+            behaviors.Add(new StayInRadiusBehavior());
+        }
     }
 }

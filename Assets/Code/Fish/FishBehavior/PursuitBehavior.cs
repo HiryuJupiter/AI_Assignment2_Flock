@@ -2,26 +2,29 @@
 using System.Linq;
 using UnityEngine;
 
-public class PursuitBehavior : IFishBehavior
+namespace FlockPrototype
 {
-    public  Vector2 CalculateMoveDir(FishBase fish, FishNeighbors neighbors, Flock flock)
+    public class PursuitBehavior : IFishBehavior
     {
-        Vector2 move = Vector2.zero;
-
-        //Only pursuit preys that are not in hiding.  (Using a linq statement that is more performant)
-        List<FishBase> preys = neighbors.Preys.Where(p => !p.IsHiding).ToList();
-
-        //If there is only one prey, then skip trying to find the closest prey
-        if (preys.Count == 1)
+        public Vector2 CalculateMoveDir(FishBase fish, FishNeighbors neighbors, Flock flock)
         {
-            move = preys[0].transform.position - fish.transform.position;
+            Vector2 move = Vector2.zero;
+
+            //Only pursuit preys that are not in hiding.  (Using a linq statement that is more performant)
+            List<FishBase> preys = neighbors.Preys.Where(p => !p.IsHiding).ToList();
+
+            //If there is only one prey, then skip trying to find the closest prey
+            if (preys.Count == 1)
+            {
+                move = preys[0].transform.position - fish.transform.position;
+            }
+            else if (preys.Count > 1)
+            {
+                //Find closest prey
+                move = (fish.transform.position - neighbors.GetClosestPrey().position).normalized;
+            }
+            Debug.DrawRay(fish.transform.position, move, Color.red);
+            return move;
         }
-        else if (preys.Count > 1)
-        {
-            //Find closest prey
-            move = (fish.transform.position - neighbors.GetClosestPrey().position).normalized;
-        }
-        Debug.DrawRay(fish.transform.position, move, Color.red);
-        return move;
     }
 }

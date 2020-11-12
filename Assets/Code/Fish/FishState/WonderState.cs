@@ -1,12 +1,15 @@
-﻿public class WonderState : FishStateBase
+﻿namespace FlockPrototype
 {
-    //Constructor
-    public WonderState(FishBase fish) : base(fish)
+    public class WonderState : FishStateBase
     {
-        behaviors.Add(new FlockAlignmentBehavior());
-        behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
-        behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
-        behaviors.Add(new StayInRadiusBehavior());
-        behaviors.Add(new SameFlockAvoidanceBehavior(fish.Flock));
+        //Constructor
+        public WonderState(FishBase fish) : base(fish)
+        {
+            behaviors.Add(new FlockAlignmentBehavior());
+            behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
+            behaviors.Add(new ObstacleAvoidanceBehavior(fish.Flock));
+            behaviors.Add(new StayInRadiusBehavior());
+            behaviors.Add(new SameFlockAvoidanceBehavior(fish.Flock));
+        }
     }
 }
