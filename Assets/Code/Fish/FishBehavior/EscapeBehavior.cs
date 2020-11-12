@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class EscapeBehavior : IFishBehavior
 {
-    const float hideWeight = 5f;
-    const float hideBehindObjectDist = 2f;
+    //Using consts for stats that we want to use
+    const float HideWeight = 5f;
+    const float HideBehindObjectDist = 2f;
 
+    //Cache
     float sqrNeighborRadius;
 
+    //Constructor
     public EscapeBehavior(Flock flock)
     {
         sqrNeighborRadius = flock.NeighborRadius * flock.NeighborRadius;
@@ -26,13 +29,13 @@ public class EscapeBehavior : IFishBehavior
             if (Vector2.SqrMagnitude(dir) > flock.SmallRadius)
             {
                 //Debug.DrawRay(fish.transform.position, escapeDir, Color.yellow);
-                escapeDir = dir.normalized * hideWeight;
+                escapeDir = dir.normalized * HideWeight;
             }
 
             //Hide logic version 2: hide behind objects
-            escapeDir = (Vector2)neighbors.GetClosestHideSpot().position + dir.normalized * hideBehindObjectDist;
-            escapeDir = dir * hideWeight;
-            Debug.DrawRay(fish.transform.position, neighbors.GetClosestHideSpot().position, Color.green);
+            escapeDir = (Vector2)neighbors.GetClosestHideSpot().position + dir.normalized * HideBehindObjectDist;
+            escapeDir = dir * HideWeight;
+            Debug.DrawLine(fish.transform.position, neighbors.GetClosestHideSpot().position, Color.green);
         }
         else
         {

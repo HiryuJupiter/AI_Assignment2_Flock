@@ -10,6 +10,7 @@ public class SameFlockCohesion : IFishBehavior
     //Status
     Vector2 smoothDampVelocity;
 
+    //Constructor
     public SameFlockCohesion(Flock flock, float weight = 0.1f)
     {
         this.weight = weight;
@@ -32,7 +33,7 @@ public class SameFlockCohesion : IFishBehavior
             }
             move /= neighbors.SameFlock.Count;
 
-            //Lerp the fish towards that position
+            //Move the fish towards that position
             move -= (Vector2)fish.transform.position;
             move = Vector2.SmoothDamp(fish.transform.up, move, ref smoothDampVelocity, smoothTime) * weight;
         }

@@ -1,4 +1,5 @@
-﻿public enum SpawningMode 
+﻿//Enum for different spawning types
+public enum SpawningMode 
 { 
     None = 0, 
     TinyFish = 1, 

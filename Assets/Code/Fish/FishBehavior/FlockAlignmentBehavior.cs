@@ -7,6 +7,7 @@ public class FlockAlignmentBehavior : IFishBehavior
 {
     float weight = 0.1f;
 
+    //Constructor
     public FlockAlignmentBehavior(float weight = 0.1f)
     {
         this.weight = weight;
@@ -16,6 +17,7 @@ public class FlockAlignmentBehavior : IFishBehavior
     {
         Vector2 alignmentDir = Vector2.zero;
 
+        //If we have one neighbor to begin with, then ...
         if (neighbors.SameFlock.Count > 0)
         {
             //Get the averaged forward direction of neighbors
@@ -29,5 +31,3 @@ public class FlockAlignmentBehavior : IFishBehavior
         return alignmentDir;
     }
 }
-
-// neighbors = filter == null ? neighbors : filter.Filter(agent, neighbors);

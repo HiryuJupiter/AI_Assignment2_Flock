@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class HUDSpawnButtons : MonoBehaviour
 {
+    //Variables
     [Header("Button Highlight Borders")]
     [SerializeField] Image buttonBorder_TinyFish;
     [SerializeField] Image buttonBorder_SmallFish;
@@ -15,6 +16,7 @@ public class HUDSpawnButtons : MonoBehaviour
 
     void Awake()
     {
+        //Create a lookup table so we can look up UI image using enums
         borderLookup = new Dictionary<SpawningMode, Image>
         {
             { SpawningMode.TinyFish, buttonBorder_TinyFish },
@@ -24,40 +26,30 @@ public class HUDSpawnButtons : MonoBehaviour
         };
     }
 
+    #region Public
     public void RevealButtonBorder(SpawningMode newMode)
     {
+        //Hide the currently active border then reveal the new highlight border
         HideCurrentBorder();
 
-        //Activate the new highlight box
         borderLookup[newMode].enabled = true;
         currentMode = newMode;
     }
 
-    public void HideButtonBorder ()
+    public void HideButtonBorder()
     {
+        //Hide border then set the current mode to none
         HideCurrentBorder();
         currentMode = SpawningMode.None;
     }
+    #endregion
 
     void HideCurrentBorder ()
     {
+        //If we're currently in a spawning state, then a border is active and we will now deactivate it. 
         if (currentMode != SpawningMode.None)
         {
             borderLookup[currentMode].enabled = false;
-        }
-    }
-
-    class ButtonLookup
-    {
-        public SpawningMode Mode;
-        public Image UiImage;
-        public string DescriptionText;
-
-        public ButtonLookup(SpawningMode mode, Image image, string descriptionText)
-        {
-            Mode = mode;
-            UiImage = image;
-            DescriptionText = descriptionText;
         }
     }
 }

@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-
-//The waypoints game objects need to be on Path layer.
 
 public class WaypointFollowBehavior : IFishBehavior
 {
-    const float Radius = 1f;
-
+    //Variables
     Path path;
     int waypointIndex = -1;
     Vector3 waypointPos;
     float weight = 4f;
 
+    //Constructor
     public WaypointFollowBehavior(Path path, float weight = 4f)
     {
         this.path = path;
@@ -39,24 +33,29 @@ public class WaypointFollowBehavior : IFishBehavior
         return (waypointPos - fish.transform.position).normalized * weight;
     }
 
-    bool HasArrivedAtWaypoint(FishBase fish)
+    public void StopFollowingPath()
     {
-        return (Vector2.SqrMagnitude(waypointPos - fish.transform.position) < 1f);
+        //We use -1 to indicate we don't have a waypoint currently
+        waypointIndex = -1;
     }
 
-    public void StopFollowingPath ()
+
+    bool HasArrivedAtWaypoint(FishBase fish)
     {
-        waypointIndex = -1;
+        //Use a distance check to see if we've arrived at a destination
+        return (Vector2.SqrMagnitude(waypointPos - fish.transform.position) < 1f);
     }
 
     void FindClosestWayPoint (FishBase fish)
     {
+        //Use the path class to find closest waypoint
         waypointIndex = path.GetClosestWaypointIndex(fish.transform.position);
         waypointPos = path.GetWaypointPosition(waypointIndex);
     }
 
     void GetNextWaypoint ()
     {
+        //Use a path class method to find the next waypoint
         waypointIndex = path.GetNextIndex(waypointIndex);
         waypointPos = path.GetWaypointPosition(waypointIndex);
     }

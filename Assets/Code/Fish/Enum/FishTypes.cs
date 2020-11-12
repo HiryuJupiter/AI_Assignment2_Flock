@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-//Enums of a greater index value must be higher on the food chain.
+﻿//We want enums of a greater index value to represent higher tier on the food chain.
 public enum FishTypes
 {
     TinyFish, //Only moves in alignment and avoid obstacles

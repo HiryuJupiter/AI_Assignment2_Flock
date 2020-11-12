@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿//Enum class for storing fish states
 public enum FishState
 {
     WayPointWonder, 
